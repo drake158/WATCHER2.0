@@ -1,19 +1,3 @@
-<!--
-Sync Impact Report:
-- Version change: [CONSTITUTION_VERSION] (uninitialized template) → 1.0.0
-- Modified principles:
-  - [PRINCIPLE_1_NAME] → I. Pure Client-Side (Arquitectura 100% Cliente)
-  - [PRINCIPLE_2_NAME] → II. Y2K Aesthetic & Visual Engine (Motor Visual y Estética Y2K)
-  - [PRINCIPLE_3_NAME] → III. Local Audio & Queue (Audio Local y Cola de Reproducción)
-  - [PRINCIPLE_4_NAME] → IV. Minimal Testing (Pruebas Mínimas de Integración)
-  - [PRINCIPLE_5_NAME] → V. Continuous Git Commits (Commits Atómicos y Continuos)
-- Added sections:
-  - Restricciones Técnicas y de Despliegue
-  - Flujo de Desarrollo y Control de Calidad
-- Removed sections: None
-- Templates requiring updates: None (loaded dynamically at runtime)
-- Follow-up TODOs: None
--->
 # WATHCER 2.0 Constitution
 
 ## Core Principles
