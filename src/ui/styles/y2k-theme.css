@@ -1,0 +1,398 @@
+:root {
+  --y2k-bg-dark: #05060b;
+  --y2k-chrome-top: #e6ecf5;
+  --y2k-chrome-mid: #9aa7bd;
+  --y2k-chrome-bot: #505b70;
+  --y2k-panel-bg: rgba(16, 22, 36, 0.84);
+  --y2k-lcd-bg: #040d12;
+  --y2k-cyan: #00f5ff;
+  --y2k-magenta: #ff00a0;
+  --y2k-neon-green: #39ff14;
+  --y2k-amber: #ffbe0b;
+  --y2k-border-light: #ffffff;
+  --y2k-border-dark: #1d2433;
+  --y2k-font-tech: 'Courier New', 'Lucida Console', Monaco, monospace;
+  --y2k-font-ui: 'Trebuchet MS', 'Tahoma', 'Verdana', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--y2k-bg-dark);
+  color: #e4f0ff;
+  font-family: var(--y2k-font-ui);
+  user-select: none;
+}
+
+.app-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 100% Viewport Dominant Canvas (FR-001 / SC-001) */
+#visualizer-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 1;
+}
+
+/* Optional CRT Scanline & Vignette Overlay (FR-008) */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background:
+    linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.38) 50%
+    ),
+    radial-gradient(
+      circle at center,
+      transparent 62%,
+      rgba(0, 8, 18, 0.68) 100%
+    );
+  background-size: 100% 4px, 100% 100%;
+}
+
+.crt-overlay--active {
+  opacity: 1;
+}
+
+/* Auto-Hiding Y2K HUD Container (FR-001 Clarification) */
+.y2k-hud {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 20px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.y2k-hud--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Metallic Chrome Beveled Windows (Winamp / WMP7 Aesthetic) */
+.y2k-window {
+  pointer-events: auto;
+  background: linear-gradient(
+    165deg,
+    rgba(38, 48, 72, 0.88) 0%,
+    rgba(14, 19, 32, 0.9) 100%
+  );
+  backdrop-filter: blur(8px);
+  border-top: 2px solid var(--y2k-border-light);
+  border-left: 2px solid var(--y2k-border-light);
+  border-right: 2px solid var(--y2k-border-dark);
+  border-bottom: 2px solid var(--y2k-border-dark);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.35),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.7),
+    0 10px 28px rgba(0, 0, 0, 0.72),
+    0 0 14px rgba(0, 245, 255, 0.16);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.y2k-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background: linear-gradient(
+    90deg,
+    #10254c 0%,
+    #00a8c6 48%,
+    #b8008f 100%
+  );
+  border-bottom: 1px solid #09101d;
+  font-family: var(--y2k-font-tech);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.y2k-titlebar__led {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--y2k-neon-green);
+  box-shadow: 0 0 8px var(--y2k-neon-green);
+  margin-right: 6px;
+}
+
+.y2k-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.y2k-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Main Transport & LCD Deck */
+.y2k-deck {
+  width: min(460px, 100%);
+}
+
+.y2k-deck__body {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.y2k-lcd {
+  background: var(--y2k-lcd-bg);
+  border-top: 2px solid #020508;
+  border-left: 2px solid #020508;
+  border-right: 1px solid rgba(0, 245, 255, 0.35);
+  border-bottom: 1px solid rgba(0, 245, 255, 0.35);
+  padding: 8px 10px;
+  font-family: var(--y2k-font-tech);
+  color: var(--y2k-cyan);
+  box-shadow: inset 0 0 12px rgba(0, 245, 255, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.y2k-lcd__track {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--y2k-neon-green);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.5);
+}
+
+.y2k-lcd__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--y2k-cyan);
+}
+
+/* Beveled Chrome Buttons */
+.y2k-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.y2k-btn {
+  appearance: none;
+  background: linear-gradient(
+    180deg,
+    var(--y2k-chrome-top) 0%,
+    var(--y2k-chrome-mid) 52%,
+    var(--y2k-chrome-bot) 100%
+  );
+  color: #0b101b;
+  font-family: var(--y2k-font-tech);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #222938;
+  border-bottom: 2px solid #222938;
+  border-radius: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  transition: filter 0.12s ease, transform 0.06s ease;
+}
+
+.y2k-btn:hover {
+  filter: brightness(1.1);
+}
+
+.y2k-btn:active,
+.y2k-btn--active {
+  background: linear-gradient(180deg, #102a45 0%, #00c4d6 100%);
+  color: #ffffff;
+  border-top: 2px solid #182030;
+  border-left: 2px solid #182030;
+  border-right: 2px solid #9df9ff;
+  border-bottom: 2px solid #9df9ff;
+  text-shadow: 0 0 5px var(--y2k-cyan);
+}
+
+.y2k-btn--accent {
+  background: linear-gradient(180deg, #ff7ce5 0%, #c8008f 55%, #66004b 100%);
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Visual Preset & FX Matrix Panel */
+.y2k-fx-panel {
+  width: min(420px, 100%);
+}
+
+.y2k-fx-panel__body {
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+}
+
+.y2k-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.y2k-field--full {
+  grid-column: 1 / -1;
+}
+
+.y2k-label {
+  font-family: var(--y2k-font-tech);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--y2k-cyan);
+  display: flex;
+  justify-content: space-between;
+}
+
+.y2k-select {
+  background: var(--y2k-lcd-bg);
+  color: var(--y2k-neon-green);
+  border: 1px solid var(--y2k-cyan);
+  padding: 5px 8px;
+  font-family: var(--y2k-font-tech);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.y2k-slider {
+  width: 100%;
+  accent-color: var(--y2k-magenta);
+  cursor: pointer;
+}
+
+/* Playlist Queue Window (US3 - Winamp Style Scrollbox & Drag-and-Drop) */
+.y2k-playlist-panel {
+  width: min(440px, 100%);
+}
+
+.y2k-playlist__body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.y2k-playlist__list {
+  list-style: none;
+  background: var(--y2k-lcd-bg);
+  border-top: 2px solid #020508;
+  border-left: 2px solid #020508;
+  border-right: 1px solid rgba(0, 245, 255, 0.35);
+  border-bottom: 1px solid rgba(0, 245, 255, 0.35);
+  max-height: 150px;
+  min-height: 76px;
+  overflow-y: auto;
+  padding: 4px;
+  font-family: var(--y2k-font-tech);
+  font-size: 11px;
+}
+
+.y2k-playlist__empty {
+  color: rgba(0, 245, 255, 0.55);
+  padding: 16px 8px;
+  text-align: center;
+  font-style: italic;
+}
+
+.y2k-playlist__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+  color: #b8d8e8;
+  border-bottom: 1px dashed rgba(0, 245, 255, 0.14);
+  cursor: grab;
+  transition: background 0.12s ease;
+}
+
+.y2k-playlist__item:hover {
+  background: rgba(0, 245, 255, 0.14);
+  color: #ffffff;
+}
+
+.y2k-playlist__item--active {
+  background: rgba(255, 0, 160, 0.24);
+  color: var(--y2k-neon-green);
+  font-weight: 700;
+}
+
+.y2k-playlist__item--dragover {
+  border-top: 2px solid var(--y2k-magenta);
+  background: rgba(255, 0, 160, 0.35);
+}
+
+.y2k-playlist__handle {
+  color: var(--y2k-magenta);
+  margin-right: 6px;
+  font-weight: bold;
+}
+
+.y2k-toast {
+  font-family: var(--y2k-font-tech);
+  font-size: 11px;
+  color: var(--y2k-amber);
+  background: rgba(25, 12, 0, 0.9);
+  border: 1px solid var(--y2k-amber);
+  padding: 4px 8px;
+  display: none;
+}
+
+.y2k-toast--visible {
+  display: block;
+}
+
+.y2k-dropzone-active .y2k-window {
+  box-shadow: 0 0 24px var(--y2k-magenta);
+}
