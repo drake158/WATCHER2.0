@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WATHCER 2.0 // Y2K Audio Visualizer</title>
+    <link rel="stylesheet" href="./src/ui/styles/y2k-theme.css" />
+  </head>
+  <body>
+    <main class="app-viewport" id="app-viewport">
+      <canvas id="visualizer-canvas" aria-label="Lienzo de visualización de audio WebGL Y2K"></canvas>
+      <div id="crt-overlay" class="crt-overlay crt-overlay--active" aria-hidden="true"></div>
+      <div id="y2k-hud" class="y2k-hud y2k-hud--visible" role="region" aria-label="Controles del Reproductor y Visualizador Y2K"></div>
+    </main>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

@@ -29,9 +29,9 @@ description: "Task list for Visualizador de Audio Y2K (WATHCER 2.0) implementati
 
 **Purpose**: Inicialización del proyecto Vite sin dependencias de runtime, estructura de directorios y configuración de rutas relativas para GitHub Pages.
 
-- [ ] T001 Create project directory structure (`src/audio/`, `src/visualizer/shaders/`, `src/queue/`, `src/ui/styles/`, `src/state/`, `tests/`) and initialize `package.json` with zero runtime dependencies (`"dependencies": {}`) and devDependencies (`vite`, `vitest`, `jsdom`) in `package.json`
-- [ ] T002 [P] Configure Vite for 100% static relative asset paths (`base: './'`, `build.outDir: 'dist'`) and Vitest test environment (`environment: 'jsdom'`) in `vite.config.js`
-- [ ] T003 [P] Create base HTML5 document shell with full-viewport `<canvas id="visualizer-canvas">` and root Y2K HUD overlay container `<div id="y2k-hud" class="y2k-hud">` in `index.html`
+- [X] T001 Create project directory structure (`src/audio/`, `src/visualizer/shaders/`, `src/queue/`, `src/ui/styles/`, `src/state/`, `tests/`) and initialize `package.json` with zero runtime dependencies (`"dependencies": {}`) and devDependencies (`vite`, `vitest`, `jsdom`) in `package.json`
+- [X] T002 [P] Configure Vite for 100% static relative asset paths (`base: './'`, `build.outDir: 'dist'`) and Vitest test environment (`environment: 'jsdom'`) in `vite.config.js`
+- [X] T003 [P] Create base HTML5 document shell with full-viewport `<canvas id="visualizer-canvas">` and root Y2K HUD overlay container `<div id="y2k-hud" class="y2k-hud">` in `index.html`
 
 ---
 
@@ -41,10 +41,10 @@ description: "Task list for Visualizador de Audio Y2K (WATHCER 2.0) implementati
 
 **⚠️ CRITICAL**: Ninguna historia de usuario puede comenzar hasta completar esta fase.
 
-- [ ] T004 [P] Implement `PreferencesStore` managing `VisualPresetState` persistence under `localStorage` key `wathcer_y2k_prefs_v1` with verbatim constraints (`mode`: `'warp_tunnel' | 'oscilloscope_matrix' | 'plasma_feedback'` default `'warp_tunnel'`, `paletteIndex`: `0, 1, 2, 3` default `0 (Cyber Cyan/Magenta/Neon)`, `beatSensitivity`: `Rango continuo [0.1, 2.0]` default `1.0`, `crtEnabled`: `true | false` default `true`, `loopQueue`: `true | false` default `true`) in `src/state/PreferencesStore.js`
-- [ ] T005 [P] Create minimal smoke test suite with exactly 2 integration smoke tests (Test 1: `WebAudioEngine` `AudioContext` instantiation and synthetic `AudioAnalysisFrame` extraction; Test 2: `WebGLShaderEngine` WebGL context support, shader compilation, and ping-pong FBO initialization) in `tests/smoke.test.js`
-- [ ] T006 [P] Create foundational layout and Y2K CSS variables (100vw x 100vh canvas reset, metallic bevel borders, cyan/magenta/neon color tokens, and `.y2k-hud` / `.y2k-hud--visible` auto-hide transitions) in `src/ui/styles/y2k-theme.css`
-- [ ] T007 Commit Checkpoint 1 (`chore: setup vite config, preferences store and minimal smoke test harness`) via Git using `.gitignore` and `package.json`
+- [X] T004 [P] Implement `PreferencesStore` managing `VisualPresetState` persistence under `localStorage` key `wathcer_y2k_prefs_v1` with verbatim constraints (`mode`: `'warp_tunnel' | 'oscilloscope_matrix' | 'plasma_feedback'` default `'warp_tunnel'`, `paletteIndex`: `0, 1, 2, 3` default `0 (Cyber Cyan/Magenta/Neon)`, `beatSensitivity`: `Rango continuo [0.1, 2.0]` default `1.0`, `crtEnabled`: `true | false` default `true`, `loopQueue`: `true | false` default `true`) in `src/state/PreferencesStore.js`
+- [X] T005 [P] Create minimal smoke test suite with exactly 2 integration smoke tests (Test 1: `WebAudioEngine` `AudioContext` instantiation and synthetic `AudioAnalysisFrame` extraction; Test 2: `WebGLShaderEngine` WebGL context support, shader compilation, and ping-pong FBO initialization) in `tests/smoke.test.js`
+- [X] T006 [P] Create foundational layout and Y2K CSS variables (100vw x 100vh canvas reset, metallic bevel borders, cyan/magenta/neon color tokens, and `.y2k-hud` / `.y2k-hud--visible` auto-hide transitions) in `src/ui/styles/y2k-theme.css`
+- [X] T007 Commit Checkpoint 1 (`chore: setup vite config, preferences store and minimal smoke test harness`) via Git using `.gitignore` and `package.json`
 
 **Checkpoint**: Infraestructura lista — la implementación de historias de usuario puede comenzar.
 
@@ -58,14 +58,14 @@ description: "Task list for Visualizador de Audio Y2K (WATHCER 2.0) implementati
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Implement `WebAudioEngine` (`init`, `loadTrackUrl`, `play`, `pause`, `setBeatSensitivity`, `getAnalysisFrame`) producing `AudioAnalysisFrame` with verbatim constraints (`frequencyData`: `Uint8Array` of `256 elementos (0..255)`, `timeDomainData`: `Uint8Array` of `256 elementos (0..255, centro 128)`, `bassEnergy`: `Normalizado [0.0, 1.0]`, `midEnergy`: `Normalizado [0.0, 1.0]`, `highEnergy`: `Normalizado [0.0, 1.0]`, `beatPulse`: `Normalizado [0.0, 1.0]`, `isSynthetic`: `true | false`) in `src/audio/WebAudioEngine.js`
-- [ ] T009 [US1] Verify Smoke Test 1 (`AudioContext` initialization and simulated signal analysis) passes and create Git Checkpoint 2 (`feat(audio): implement WebAudioEngine with FFT, beat detection and demo signal`) in `src/audio/WebAudioEngine.js`
-- [ ] T010 [P] [US1] Create shared fullscreen quad vertex shader (`a_position`, `v_uv`) in `src/visualizer/shaders/fullscreen.vert.js`
-- [ ] T011 [P] [US1] Implement Pass 1 fragment shader with ping-pong feedback sampling (`u_prevFrame`), continuous rotation/zoom decay, bass-reactive warp grid deformation (`u_bass`, `u_beatPulse`), and base *Warp Tunnel* geometry (`u_mode == 0`) in `src/visualizer/shaders/feedback.frag.js`
-- [ ] T012 [P] [US1] Implement Pass 2 post-processing fragment shader with base Y2K palette mapping (`u_palette`) and screen output in `src/visualizer/shaders/postprocess.frag.js`
-- [ ] T013 [US1] Implement `WebGLShaderEngine` managing WebGL context, `256x2` audio data texture (`u_audioData`), ping-pong framebuffers (`FBO_A` and `FBO_B`), viewport `resize(width, height)`, and two-pass `renderFrame(audioFrame, timeSeconds)` (verifying Smoke Test 2 passes for MVP pipeline) in `src/visualizer/WebGLShaderEngine.js`
-- [ ] T014 [US1] Implement core `UIShellY2K` with single/multi local audio file input (`accept=".mp3,.wav,.ogg,audio/*"`), Play/Pause transport button, and cursor inactivity auto-hide controller (`2500 ms` timeout toggling `.y2k-hud--visible` on `mousemove`/`mousedown`/`keydown`) in `src/ui/UIShellY2K.js`
-- [ ] T015 [US1] Wire `WebAudioEngine`, `WebGLShaderEngine`, `PreferencesStore`, and `UIShellY2K` inside the 60 FPS `requestAnimationFrame` loop and window resize handler in `src/main.js`
+- [X] T008 [P] [US1] Implement `WebAudioEngine` (`init`, `loadTrackUrl`, `play`, `pause`, `setBeatSensitivity`, `getAnalysisFrame`) producing `AudioAnalysisFrame` with verbatim constraints (`frequencyData`: `Uint8Array` of `256 elementos (0..255)`, `timeDomainData`: `Uint8Array` of `256 elementos (0..255, centro 128)`, `bassEnergy`: `Normalizado [0.0, 1.0]`, `midEnergy`: `Normalizado [0.0, 1.0]`, `highEnergy`: `Normalizado [0.0, 1.0]`, `beatPulse`: `Normalizado [0.0, 1.0]`, `isSynthetic`: `true | false`) in `src/audio/WebAudioEngine.js`
+- [X] T009 [US1] Verify Smoke Test 1 (`AudioContext` initialization and simulated signal analysis) passes and create Git Checkpoint 2 (`feat(audio): implement WebAudioEngine with FFT, beat detection and demo signal`) in `src/audio/WebAudioEngine.js`
+- [X] T010 [P] [US1] Create shared fullscreen quad vertex shader (`a_position`, `v_uv`) in `src/visualizer/shaders/fullscreen.vert.js`
+- [X] T011 [P] [US1] Implement Pass 1 fragment shader with ping-pong feedback sampling (`u_prevFrame`), continuous rotation/zoom decay, bass-reactive warp grid deformation (`u_bass`, `u_beatPulse`), and base *Warp Tunnel* geometry (`u_mode == 0`) in `src/visualizer/shaders/feedback.frag.js`
+- [X] T012 [P] [US1] Implement Pass 2 post-processing fragment shader with base Y2K palette mapping (`u_palette`) and screen output in `src/visualizer/shaders/postprocess.frag.js`
+- [X] T013 [US1] Implement `WebGLShaderEngine` managing WebGL context, `256x2` audio data texture (`u_audioData`), ping-pong framebuffers (`FBO_A` and `FBO_B`), viewport `resize(width, height)`, and two-pass `renderFrame(audioFrame, timeSeconds)` (verifying Smoke Test 2 passes for MVP pipeline) in `src/visualizer/WebGLShaderEngine.js`
+- [X] T014 [US1] Implement core `UIShellY2K` with single/multi local audio file input (`accept=".mp3,.wav,.ogg,audio/*"`), Play/Pause transport button, and cursor inactivity auto-hide controller (`2500 ms` timeout toggling `.y2k-hud--visible` on `mousemove`/`mousedown`/`keydown`) in `src/ui/UIShellY2K.js`
+- [X] T015 [US1] Wire `WebAudioEngine`, `WebGLShaderEngine`, `PreferencesStore`, and `UIShellY2K` inside the 60 FPS `requestAnimationFrame` loop and window resize handler in `src/main.js`
 
 **Checkpoint**: User Story 1 es completamente funcional y verificable de manera independiente como MVP.
 
@@ -79,11 +79,11 @@ description: "Task list for Visualizador de Audio Y2K (WATHCER 2.0) implementati
 
 ### Implementation for User Story 2
 
-- [ ] T016 [P] [US2] Extend Pass 1 fragment shader to implement *Oscilloscope Matrix* (`u_mode == 1` with time-domain waveform matrix tracing from `u_audioData` at `y = 0.75`) and *Plasma Feedback* (`u_mode == 2` with organic interference fields and intense ping-pong feedback) in `src/visualizer/shaders/feedback.frag.js`
-- [ ] T017 [P] [US2] Extend Pass 2 fragment shader to implement 4 Y2K neon palettes (*palette cycling* for `u_palette` values `0, 1, 2, 3`) and optional CRT scanline/vignette curvature filter (`u_crtEnabled`) in `src/visualizer/shaders/postprocess.frag.js`
-- [ ] T018 [US2] Verify Smoke Test 2 (WebGL pipeline & multi-mode shader compilation) passes and create Git Checkpoint 3 (`feat(visualizer): implement WebGLShaderEngine with ping-pong FBOs and Y2K GLSL shaders`) in `src/visualizer/WebGLShaderEngine.js`
-- [ ] T019 [US2] Add interactive Y2K controls to `UIShellY2K` for visual mode selector (`'warp_tunnel' | 'oscilloscope_matrix' | 'plasma_feedback'`), palette selector (`0..3`), beat sensitivity slider (`[0.1, 2.0]`), and CRT scanline toggle (`crtEnabled`), syncing live changes with `WebGLShaderEngine`, `WebAudioEngine`, and `PreferencesStore` in `src/ui/UIShellY2K.js`
-- [ ] T020 [P] [US2] Style Y2K preset selectors, custom beveled range slider, LCD status readouts, and optional CSS/canvas CRT frame accents in `src/ui/styles/y2k-theme.css`
+- [X] T016 [P] [US2] Extend Pass 1 fragment shader to implement *Oscilloscope Matrix* (`u_mode == 1` with time-domain waveform matrix tracing from `u_audioData` at `y = 0.75`) and *Plasma Feedback* (`u_mode == 2` with organic interference fields and intense ping-pong feedback) in `src/visualizer/shaders/feedback.frag.js`
+- [X] T017 [P] [US2] Extend Pass 2 fragment shader to implement 4 Y2K neon palettes (*palette cycling* for `u_palette` values `0, 1, 2, 3`) and optional CRT scanline/vignette curvature filter (`u_crtEnabled`) in `src/visualizer/shaders/postprocess.frag.js`
+- [X] T018 [US2] Verify Smoke Test 2 (WebGL pipeline & multi-mode shader compilation) passes and create Git Checkpoint 3 (`feat(visualizer): implement WebGLShaderEngine with ping-pong FBOs and Y2K GLSL shaders`) in `src/visualizer/WebGLShaderEngine.js`
+- [X] T019 [US2] Add interactive Y2K controls to `UIShellY2K` for visual mode selector (`'warp_tunnel' | 'oscilloscope_matrix' | 'plasma_feedback'`), palette selector (`0..3`), beat sensitivity slider (`[0.1, 2.0]`), and CRT scanline toggle (`crtEnabled`), syncing live changes with `WebGLShaderEngine`, `WebAudioEngine`, and `PreferencesStore` in `src/ui/UIShellY2K.js`
+- [X] T020 [P] [US2] Style Y2K preset selectors, custom beveled range slider, LCD status readouts, and optional CSS/canvas CRT frame accents in `src/ui/styles/y2k-theme.css`
 
 **Checkpoint**: User Stories 1 y 2 funcionan de forma integrada e independiente.
 
@@ -97,11 +97,11 @@ description: "Task list for Visualizador de Audio Y2K (WATHCER 2.0) implementati
 
 ### Implementation for User Story 3
 
-- [ ] T021 [US3] Implement `QueueManager` managing `Track` entities (`id`: `Único por sesión (crypto.randomUUID() o contador incremental)`, `name`: `No vacío; nombre del archivo sin ruta`, `mimeType`: `audio/mpeg, audio/wav, audio/ogg (o extensión .mp3, .wav, .ogg)`, `objectUrl`: `Generado con URL.createObjectURL(file)`, `fileSize`: `> 0 (bytes)`) and `PlaylistQueue` state (`tracks`: `Lista ordenada mutable mediante selección múltiple o Drag & Drop`, `currentIndex`: `-1 si tracks está vacío; 0 <= currentIndex < tracks.length cuando hay pista activa`, `playbackState`: `'idle' | 'playing' | 'paused'`, `loopQueue`: `boolean` default `true`, plus `URL.revokeObjectURL` cleanup in `dispose()`) in `src/queue/QueueManager.js`
-- [ ] T022 [US3] Create Git Checkpoint 4 (`feat(queue): implement local audio QueueManager with drag-and-drop reordering and loop`) after validating `QueueManager` state transitions in `src/queue/QueueManager.js`
-- [ ] T023 [US3] Extend `UIShellY2K` with Winamp/WMP7-inspired playlist panel supporting window-wide file Drag & Drop ingestion, active track highlight, Previous/Next track buttons, Loop Queue toggle button, and native HTML5 Drag & Drop track list reordering (`dragstart`, `dragover`, `drop`) in `src/ui/UIShellY2K.js`
-- [ ] T024 [P] [US3] Add Y2K playlist scrollbox styles, active track LED indicator, drag-over drop target highlights, and invalid file toast notification styles in `src/ui/styles/y2k-theme.css`
-- [ ] T025 [US3] Connect `QueueManager` callbacks (`onTrackChange`, `onQueueUpdate`) and `<audio>` `ended` event auto-advance to `WebAudioEngine`, `PreferencesStore`, and `UIShellY2K` in `src/main.js`
+- [X] T021 [US3] Implement `QueueManager` managing `Track` entities (`id`: `Único por sesión (crypto.randomUUID() o contador incremental)`, `name`: `No vacío; nombre del archivo sin ruta`, `mimeType`: `audio/mpeg, audio/wav, audio/ogg (o extensión .mp3, .wav, .ogg)`, `objectUrl`: `Generado con URL.createObjectURL(file)`, `fileSize`: `> 0 (bytes)`) and `PlaylistQueue` state (`tracks`: `Lista ordenada mutable mediante selección múltiple o Drag & Drop`, `currentIndex`: `-1 si tracks está vacío; 0 <= currentIndex < tracks.length cuando hay pista activa`, `playbackState`: `'idle' | 'playing' | 'paused'`, `loopQueue`: `boolean` default `true`, plus `URL.revokeObjectURL` cleanup in `dispose()`) in `src/queue/QueueManager.js`
+- [X] T022 [US3] Create Git Checkpoint 4 (`feat(queue): implement local audio QueueManager with drag-and-drop reordering and loop`) after validating `QueueManager` state transitions in `src/queue/QueueManager.js`
+- [X] T023 [US3] Extend `UIShellY2K` with Winamp/WMP7-inspired playlist panel supporting window-wide file Drag & Drop ingestion, active track highlight, Previous/Next track buttons, Loop Queue toggle button, and native HTML5 Drag & Drop track list reordering (`dragstart`, `dragover`, `drop`) in `src/ui/UIShellY2K.js`
+- [X] T024 [P] [US3] Add Y2K playlist scrollbox styles, active track LED indicator, drag-over drop target highlights, and invalid file toast notification styles in `src/ui/styles/y2k-theme.css`
+- [X] T025 [US3] Connect `QueueManager` callbacks (`onTrackChange`, `onQueueUpdate`) and `<audio>` `ended` event auto-advance to `WebAudioEngine`, `PreferencesStore`, and `UIShellY2K` in `src/main.js`
 
 **Checkpoint**: Todas las historias de usuario (`US1`, `US2`, `US3`) están completas y son verificables de forma independiente.
 
@@ -111,8 +111,8 @@ description: "Task list for Visualizador de Audio Y2K (WATHCER 2.0) implementati
 
 **Purpose**: Validación final de smoke tests, compilación estática para GitHub Pages y último checkpoint de Git.
 
-- [ ] T026 Run full smoke test suite (`npm test`) and production static build (`npm run build`) to verify zero errors and 100% relative asset paths (`./assets/...`) in `dist/index.html`
-- [ ] T027 Create final Git Checkpoint 5 (`feat(ui): implement Y2K UI shell with auto-hide HUD, CRT toggle and full integration`) committing all remaining UI, integration, and build readiness changes in `src/main.js`
+- [X] T026 Run full smoke test suite (`npm test`) and production static build (`npm run build`) to verify zero errors and 100% relative asset paths (`./assets/...`) in `dist/index.html`
+- [X] T027 Create final Git Checkpoint 5 (`feat(ui): implement Y2K UI shell with auto-hide HUD, CRT toggle and full integration`) committing all remaining UI, integration, and build readiness changes in `src/main.js`
 
 ---
 

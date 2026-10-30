@@ -1,0 +1,19 @@
+{
+  "name": "wathcer-2.0",
+  "version": "1.0.0",
+  "description": "Y2K WebGL & WebAudio Reactive Visualizer (Pure Client-Side SPA)",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jsdom": "^25.0.1",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4"
+  }
+}
